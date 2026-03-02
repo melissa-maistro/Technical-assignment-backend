@@ -50,7 +50,11 @@ def make_request(request: Request):
         raise HTTPException(status_code=429, detail="Too many requests")
     
     request_log[user_id].append(time.time())
-    return {"id": user_id, "requests": request_log[user_id]}
+    return {
+        "id": user_id,
+        "requests_used": len(request_log[user_id]),
+        "requests_remaining": MAX_REQUESTS - len(request_log[user_id])
+    }
 
 
 @app.get("/users/{user_id}/quota")

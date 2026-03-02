@@ -41,7 +41,8 @@ def test_make_request_success():
 
     data = response.json()
     assert data["id"] == user_id
-    assert len(data["requests"]) == 1
+    assert data["requests_used"] == 1
+    assert data["requests_remaining"] == MAX_REQUESTS - 1
 
 
 # -----------------------------
@@ -89,3 +90,11 @@ def test_get_quota():
     assert data["requests_used"] == 3
     assert data["requests_remaining"] == MAX_REQUESTS - 3
     assert data["limit"] == MAX_REQUESTS
+    
+
+# -----------------------------------
+# Test: 404 if quota for unknown user
+# -----------------------------------
+def test_quota_user_not_found():
+    response = client.get("/users/invalid/quota")
+    assert response.status_code == 404

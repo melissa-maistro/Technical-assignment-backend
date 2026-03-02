@@ -61,7 +61,7 @@ User IDs are UUID v4s generated server-side. This avoids sequential IDs that cou
 
 3. To run the app
    ```bash
-   fastapi run
+   uvicorn main:app --reload
    ```
 
 4. To run the tests
