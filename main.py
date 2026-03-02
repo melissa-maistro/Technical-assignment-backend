@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from collections import defaultdict
+import uuid
+import time
 
 
 app = FastAPI()
@@ -19,7 +21,9 @@ class Request(BaseModel):
 
 @app.post("/users/", status_code=201)
 def create_user(user: User):
-    pass
+    user_id = str(uuid.uuid4())
+    users[user_id] = {"id": user_id, "name": user.name, "created_at": time.time()}
+    return users[user_id]
 
 @app.post("/requests/", status_code=201)
 def make_request(request: Request):
